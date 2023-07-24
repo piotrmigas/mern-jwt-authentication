@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../redux/api';
 import { selectUserInfo, setCredentials } from '../redux/authSlice';
 import { toast } from 'react-toastify';
+import { Watch } from 'react-loader-spinner';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const userInfo = useSelector(selectUserInfo);
 
@@ -32,6 +33,8 @@ export default function Login() {
       toast.error(err?.data?.message || err.error);
     }
   };
+
+  if (isLoading) return <Watch width={25} wrapperClass='flex justify-center mt-5' />;
 
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>

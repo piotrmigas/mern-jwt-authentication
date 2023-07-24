@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRegisterMutation } from '../redux/api';
 import { selectUserInfo, setCredentials } from '../redux/authSlice';
 import { toast } from 'react-toastify';
+import { Watch } from 'react-loader-spinner';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -14,7 +15,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const userInfo = useSelector(selectUserInfo);
 
@@ -39,6 +40,8 @@ export default function Register() {
       }
     }
   };
+
+  if (isLoading) return <Watch width={25} wrapperClass='flex justify-center mt-5' />;
 
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
